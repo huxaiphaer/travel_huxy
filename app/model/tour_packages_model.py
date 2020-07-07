@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from app.extensions import db
 
 
@@ -11,6 +10,7 @@ class TourPackages(db.Model):
     description = db.Column(db.TEXT)
     price = db.Column(db.Float)
     destination_id = db.relationship('Destinations', backref='destination_id')
+    available_date_id = db.relationship('AvailableDates', backref='available_date_id')
     capacity = db.Column(db.Integer)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow)
 
@@ -31,3 +31,11 @@ class Destinations(db.Model):
     tour_Packages = db.Column(db.Integer, db.ForeignKey('tourpackage.id'))
     location = db.Column(db.String(50))
     danger_type = db.Column(db.String(50))
+
+
+class AvailableDates(db.Model):
+    __tablename__ = 'availabledates'
+
+    id = db.Column(db.Integer, primary_key=True)
+    date_ = db.Column(db.String(50))
+    tour_date = db.Column(db.Integer, db.ForeignKey('tourpackage.id'))
