@@ -64,21 +64,15 @@ class GetTourPackages(Resource):
         })
 
     def get_all_tours(self):
-        # tours = db.session.query(TourPackages).all()
         tours = db.session.query(TourPackages.name, TourPackages.description, TourPackages.price,
                                  TourPackages.capacity,
                                  Destinations.location,
                                  Destinations.danger_type, AvailableDates.date_).join(
             Destinations).join(AvailableDates).all()
 
-        tour_schema = TourPackagesSchema()
-
+        tour_schema = TourPackagesSchema(many=True)
         dump_data = tour_schema.dump(tours)
-        print("dump data ", dump_data)
-        print("query --", tours)
-
-        output = jsonify(dump_data)
-
+        output = jsonify(data=dump_data)
         return output
 
     def post(self):

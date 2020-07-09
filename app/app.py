@@ -4,14 +4,13 @@ from flask_migrate import Migrate
 from flask_restful import Api
 from app.extensions import db
 
-from app.tour.tour_packages import GetTourPackages
+from app.views.tour_packages import GetTourPackages
 
 
 def register_extensions(app):
     """Register Flask Extensions"""
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
     app.secret_key = "huxy"
-    Marshmallow(app)
     db.init_app(app)
     Migrate(app, db)
 
