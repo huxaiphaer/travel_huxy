@@ -1,9 +1,8 @@
 from flask import Flask
-from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_restful import Api
-from app.extensions import db
 
+from app.extensions import db
 from app.views.tour_packages import GetTourPackages
 
 
