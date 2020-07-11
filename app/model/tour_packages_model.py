@@ -32,3 +32,23 @@ class AvailableDates(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_available = db.Column(db.String(50))
     tour_date = db.Column(db.Integer, db.ForeignKey('tourpackage.id'))
+
+
+class BookTour(db.Model):
+    __tablename__ = 'booking'
+    id = db.Column(db.Integer, primary_key=True)
+    # user = db.relationship('User', backref='user_id', lazy='dynamic')
+    # tour = db.relationship('TourPackages', backref='tour_id', lazy='dynamic')
+    user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    tour = db.Column(db.Integer, db.ForeignKey('tourpackage.id'))
+
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String)
+    last_name = db.Column(db.String)
+    email = db.Column(db.String, unique=True)
+    password = db.Column(db.String)
+
+
