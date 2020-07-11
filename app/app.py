@@ -1,3 +1,4 @@
+from celery import Celery
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -16,6 +17,7 @@ def register_extensions(app):
     db.init_app(app)
     Migrate(app, db)
     JWTManager(app)
+    Celery(app.name)
     return None
 
 
