@@ -1,20 +1,41 @@
-from app.extensions import ma
+from app.extensions import ma, db
+from marshmallow import fields
 from app.model.tour_packages_model import TourPackages, Destinations, AvailableDates
 
 
 class DestinationSchema(ma.Schema):
     class Meta:
         model = Destinations
-        fields = ('id', 'location', 'danger_type')
+        sqla_session = db.session
+
+    id = fields.Number(dump_only=True)
+    location = fields.String(required=True)
+    danger_type = fields.String(required=True)
+
+
 
 
 class AvailableDatesSchema(ma.Schema):
     class Meta:
         model = AvailableDates
-        fields = ('id', 'date_')
+        sqla_session = db.session
+
+    id = fields.Number(dump_only=True)
+    date_available = fields.String(required=True)
 
 
 class TourPackagesSchema(ma.Schema):
+
     class Meta:
         model = TourPackages
-        fields = ('id', 'name', 'description', 'price', 'capacity')
+        sqla_session = db.session
+
+    id = fields.Number(dump_only=True)
+    name = fields.String(required=True)
+    description = fields.String(required=True)
+    price = fields.Float(required=True)
+    capacity = fields.Number(required=True)
+    destinations = fields.Nested(DestinationSchema, many=True)
+    available_dates = fields.Nested(AvailableDatesSchema, many=True)
+
+

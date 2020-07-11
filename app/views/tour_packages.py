@@ -62,16 +62,16 @@ class GetTourPackages(Resource):
         })
 
     def get_all_tours(self):
-        tours = db.session.query(TourPackages.name, TourPackages.description, TourPackages.price,
-                                 TourPackages.capacity,
-                                 Destinations.location,
-                                 Destinations.danger_type, AvailableDates.date_).join(
-            Destinations).join(AvailableDates).all()
 
+        tours = TourPackages.query.all()
         tour_schema = TourPackagesSchema(many=True)
         dump_data = tour_schema.dump(tours)
-        output = jsonify(data=dump_data)
+
+        output = jsonify({'data': dump_data})
         return output
+
+    def update_tours(self, id):
+        pass
 
     def post(self):
         return self.insert_tour_packages()
