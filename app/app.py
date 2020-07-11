@@ -3,7 +3,7 @@ from flask_migrate import Migrate
 from flask_restful import Api
 
 from app.extensions import db
-from app.views.tour_packages import GetTourPackages
+from app.views.tour_packages import GetTourPackages, SingleTour
 
 
 def register_extensions(app):
@@ -26,3 +26,4 @@ application = create_app()
 
 api = Api(application)
 api.add_resource(GetTourPackages, '/api/v1/tourpackages')
+api.add_resource(SingleTour, '/api/v1/tourpackages/<tour_id>')
