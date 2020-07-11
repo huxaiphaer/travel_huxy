@@ -125,5 +125,34 @@ class SingleTour(Resource):
         }
         return make_response(jsonify(message), 200)
 
+    def delete_tour(self, tour_id):
+        TourPackages.query.filter_by(id=tour_id).delete()
+        Destinations.query.filter_by(tour_Packages=tour_id).delete()
+        AvailableDates.query.filter_by(tour_date=tour_id).delete()
+
+        db.session.commit()
+
+        message = {
+            'success': 'tour package with id {id} deleted'.format(id=tour_id)
+        }
+
+        return make_response(jsonify(message), 204)
+
+    def get_tour_by_id(self, tour_id):
+        tours = TourPackages.query.filter_by(id=tour_id).first()
+
+        if tours is None:
+            return make_response(jsonify(message="tour package is not available"), 200)
+        tour_schema = TourPackagesSchema()
+        dump_data = tour_schema.dump(tours)
+        output = jsonify({'data': dump_data})
+        return output
+
     def put(self, tour_id):
         return self.update_tour(tour_id)
+
+    def delete(self, tour_id):
+        return self.delete_tour(tour_id)
+
+    def get(self, tour_id):
+        return self.get_tour_by_id(tour_id)
