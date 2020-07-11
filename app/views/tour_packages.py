@@ -163,12 +163,3 @@ class SingleTour(Resource):
     @jwt_required
     def get(self, tour_id):
         return self.get_tour_by_id(tour_id)
-
-
-class BookTour(Resource):
-
-    def book_tour(self):
-        pass
-
-    def book_tour(self):
-        pass
