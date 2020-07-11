@@ -7,6 +7,7 @@ from app.extensions import db
 from app.model.marshallow_models import TourPackagesSchema
 from app.model.tour_packages_model import TourPackages, Destinations, AvailableDates
 from app.utils.json_utils import filter_args_and_json_custom_creator
+from flask_jwt_extended import JWTManager, jwt_required
 
 
 class GetTourPackages(Resource):
@@ -61,6 +62,7 @@ class GetTourPackages(Resource):
             'success': 'tour package successfully created'
         })
 
+    @jwt_required
     def get_all_tours(self):
 
         tours = TourPackages.query.all()
@@ -70,9 +72,11 @@ class GetTourPackages(Resource):
         output = jsonify({'data': dump_data})
         return output
 
+    @jwt_required
     def post(self):
         return self.insert_tour_packages()
 
+    @jwt_required
     def get(self):
         return self.get_all_tours()
 
@@ -125,5 +129,37 @@ class SingleTour(Resource):
         }
         return make_response(jsonify(message), 200)
 
+    def delete_tour(self, tour_id):
+        TourPackages.query.filter_by(id=tour_id).delete()
+        Destinations.query.filter_by(tour_Packages=tour_id).delete()
+        AvailableDates.query.filter_by(tour_date=tour_id).delete()
+
+        db.session.commit()
+
+        message = {
+            'success': 'tour package with id {id} deleted'.format(id=tour_id)
+        }
+
+        return make_response(jsonify(message), 204)
+
+    def get_tour_by_id(self, tour_id):
+        tours = TourPackages.query.filter_by(id=tour_id).first()
+
+        if tours is None:
+            return make_response(jsonify(message="tour package is not available"), 200)
+        tour_schema = TourPackagesSchema()
+        dump_data = tour_schema.dump(tours)
+        output = jsonify({'data': dump_data})
+        return output
+
+    @jwt_required
     def put(self, tour_id):
         return self.update_tour(tour_id)
+
+    @jwt_required
+    def delete(self, tour_id):
+        return self.delete_tour(tour_id)
+
+    @jwt_required
+    def get(self, tour_id):
+        return self.get_tour_by_id(tour_id)
