@@ -6,7 +6,7 @@ from flask_restful import Api
 import os
 from app.extensions import db
 from app.views.bookings import Bookings
-from app.views.tour_packages import GetTourPackages, SingleTour
+from app.views.tour_packages import GetTourPackages, SingleTour, GetTourPackagesByDate
 from app.views.user import UserRegistration, UserLogin
 from app.views.weather import Weather
 
@@ -18,7 +18,7 @@ def register_extensions(app):
     db.init_app(app)
     Migrate(app, db)
     JWTManager(app)
-    Celery(app, broker=os.environ['REDIS_URL'], backend=os.environ['REDIS_URL'])
+    Celery(app)
     return None
 
 
@@ -32,6 +32,7 @@ application = create_app()
 
 api = Api(application)
 api.add_resource(GetTourPackages, '/api/v1/tourpackages')
+api.add_resource(GetTourPackagesByDate, '/api/v1/tourpackages/<first_date>/<end_date>')
 api.add_resource(SingleTour, '/api/v1/tourpackages/<tour_id>')
 api.add_resource(UserRegistration, '/api/v1/register')
 api.add_resource(UserLogin, '/api/v1/login')

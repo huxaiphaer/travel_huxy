@@ -1,13 +1,34 @@
 from datetime import datetime
 
 from flask import jsonify, make_response
+from flask_jwt_extended import jwt_required
 from flask_restful import Resource, reqparse
 
 from app.extensions import db
 from app.model.marshallow_models import TourPackagesSchema
 from app.model.tour_packages_model import TourPackages, Destinations, AvailableDates
 from app.utils.json_utils import filter_args_and_json_custom_creator
-from flask_jwt_extended import JWTManager, jwt_required
+
+
+class GetTourPackagesByDate(Resource):
+
+    def search_tours_by_dates(self, first_date, end_date):
+        tours = TourPackages.query.filter(
+            AvailableDates.date_available.between(first_date, end_date)).all()
+
+        if len(tours) == 0:
+            message = {
+                'success': 'Sorry no tours available for the specified dates.'
+            }
+            return make_response(jsonify(message), 200)
+
+        tour_schema = TourPackagesSchema(many=True)
+        dump_data = tour_schema.dump(tours)
+        output = jsonify({'data': dump_data})
+        return output
+
+    def get(self, first_date, end_date):
+        return self.search_tours_by_dates(first_date, end_date)
 
 
 class GetTourPackages(Resource):
@@ -62,7 +83,6 @@ class GetTourPackages(Resource):
             'success': 'tour package successfully created'
         })
 
-    @jwt_required
     def get_all_tours(self):
 
         tours = TourPackages.query.all()
