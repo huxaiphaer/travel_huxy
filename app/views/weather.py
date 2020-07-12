@@ -1,79 +1,26 @@
+from flask import jsonify
 from flask_restful import Resource
-import requests
-from app.app import application
-from app.config.redis_db import redis_db
-from app.extensions import celery
+from sqlalchemy import desc
+
+from app.model.marshallow_models import WeatherSchema
+from app.model.weather_model import WeatherForecast
 
 
 class Weather(Resource):
-    # Add periodic tasks
-    celery_beat_schedule = {
-        "time_scheduler": {
-            "task": "run.paginate_requested_data",
-            # Run every second
-            "schedule": 300.0,
-        }
-    }
-    # configure celery
 
-    celery.conf.update(
-        result_backend=application.config["CELERY_RESULT_BACKEND"],
-        broker_url=application.config["CELERY_BROKER_URL"],
-        timezone="UTC",
-        task_serializer="json",
-        accept_content=["json"],
-        result_serializer="json",
-        beat_schedule=celery_beat_schedule,
-    )
-
-    def insert_data(self, db, name, weather_data):
+    def get_weather_data(self, latitude, longitude):
         """
-        :param db:
-        :param name:
-        :param hyper_drive_rating:
-        :return: None
+        :param self:
+        :param latitude:
+        :param longitude:
+        :return json
         """
+        query = WeatherForecast.query.filter_by(latitude=latitude, longitude=longitude).order_by(
+            desc(WeatherForecast.date_time)).limit(5).all()
+        weather_schema = WeatherSchema(many=True)
+        dump_data = weather_schema.dump(query)
+        output = jsonify({'data': dump_data})
+        return output
 
-        db.hset('mydata', name, weather_data)
-
-        return {"data": "data inserted successfully"}, 200
-
-    def make_request(self, url_link, db):
-        """
-        Make request to the url and
-        paginate
-        @param url_link:
-        @param db:
-        @return: None
-        """
-        pagination = 1
-        url = url_link
-        params = {'page': pagination}
-        r = requests.get(url, params=params)
-
-        data = r.json()
-
-        for i in data['results']:
-            self.insert_data(db, str(i['name']), str(i['hyperdrive_rating']))
-
-        while r.status_code == 200:
-            try:
-                pagination += 1
-                params['page'] = pagination
-                r = requests.get(url, params=params)
-                data = r.json()
-                for i in data['results']:
-                    self.insert_data(db, str(i['name']), str(i['hyperdrive_rating']))
-                return {"success": " Done insertion"}, 200
-            except KeyError as k:
-                print(k)
-                return {'error': 'An error has occurred during this operation. {}'.format(k)}, 500
-
-    @celery.task
-    def paginate_requested_data(self, url_link):
-        """
-        get paginated data
-        @param url_link:
-        @return: None
-        """
-        self.make_request(url_link, redis_db)
+    def get(self, latitude, longitude):
+        return self.get_weather_data(latitude=latitude, longitude=longitude)

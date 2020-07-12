@@ -1,14 +1,9 @@
-from app.app import application, db
+from app.app import application
 
 
 @application.route('/', methods=['GET'])
 def index():
     return "Welcome to Huxy Travel API"
-
-
-@application.before_first_request
-def create_tables():
-    db.create_all()
 
 
 if __name__ == '__main__':

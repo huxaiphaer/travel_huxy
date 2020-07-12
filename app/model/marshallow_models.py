@@ -1,6 +1,8 @@
-from app.extensions import ma, db
 from marshmallow import fields
+
+from app.extensions import ma, db
 from app.model.tour_packages_model import TourPackages, Destinations, AvailableDates
+from app.model.weather_model import WeatherForecast
 
 
 class DestinationSchema(ma.Schema):
@@ -13,8 +15,6 @@ class DestinationSchema(ma.Schema):
     danger_type = fields.String(required=True)
 
 
-
-
 class AvailableDatesSchema(ma.Schema):
     class Meta:
         model = AvailableDates
@@ -25,7 +25,6 @@ class AvailableDatesSchema(ma.Schema):
 
 
 class TourPackagesSchema(ma.Schema):
-
     class Meta:
         model = TourPackages
         sqla_session = db.session
@@ -39,3 +38,15 @@ class TourPackagesSchema(ma.Schema):
     available_dates = fields.Nested(AvailableDatesSchema, many=True)
 
 
+class WeatherSchema(ma.Schema):
+    class Meta:
+        model = WeatherForecast
+        sqla_session = db.session
+
+    id = fields.Number(dump_only=True)
+    weather_type = fields.String(required=True)
+    date_time = fields.String(required=True)
+    description = fields.String(required=True)
+    latitude = fields.String(required=True)
+    longitude = fields.String(required=True)
+    name = fields.String(required=True)
