@@ -22,7 +22,7 @@ celery is already in the `requirements.txt` file.
 1 . First clone this repository 
 
 ```
-https://github.com/huxaiphaer/travel_huxy.git
+$ git clone https://github.com/huxaiphaer/travel_huxy.git
 ```
 Add the following variables in your Environment Variables :
 
@@ -51,26 +51,26 @@ $ flask db upgrade
 3 . Then, create a virtual environment and install in on Mac :
 
 ```buildoutcfg
-virtualenv env
-source env/bin/activate
+$ virtualenv env
+$ source env/bin/activate
 ```
 
 4.  After activating the `virtualenv`, then install the necessary dependencies :
 
 ```buildoutcfg
-pip3 install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 
 5. Activate celery to perform background tasks, open a new tab in the project directory (Ensure that if you have 
 saved the Environment variables temporary, add them again to your new tab, plus activating the `virtualenv`).
 Run this first command :
 
-`celery -A app.tasks.weather_tasks.celery worker -l info`
+`$ celery -A app.tasks.weather_tasks.celery worker -l info`
 
 Then, after running the above command, create another tab in the terminal with the environment variables and run
 the command below :
 
-`celery -A app.tasks.weather_tasks.celery beat -l info`
+`$ celery -A app.tasks.weather_tasks.celery beat -l info`
 
 
 **HINT**:
@@ -80,7 +80,7 @@ variables a permanently saved._
 
 6. After, that, open another terminal and now run the entire project with the following command:
 
-`python3 run.py`
+`$ python3 run.py`
 
 Then, Viola you easily navigate to the server URL
 
@@ -115,13 +115,13 @@ Then, Viola you easily navigate to the server URL
 Running tests of the project :
 
 ```buildoutcfg
-nosetests
+$ nosetests
 ```
 
 Running tests with coverage :
 
 ```buildoutcfg
-nosetests --with-coverage
+$ nosetests --with-coverage
 ```
 
 
