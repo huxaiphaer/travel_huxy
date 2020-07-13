@@ -37,7 +37,15 @@ WEATHER_API_KEY=1d4ce67223a53a013fc03ead36137396
 SECRET_KEY = anything_you_put_here
 ```
 
-After, setting up the environment variables add create a Postgres Database called `huxy_tours`
+After, setting up the environment variables add create a Postgres Database called `huxy_tours`, followed by running SQLAlchemy migrations with the commands 
+below to create all the necessary tables :
+
+```
+$ flask db init
+$ flask db migrate
+$ flask db upgrade
+
+```
 
 
 3 . Then, create a virtual environment and install in on Mac :
