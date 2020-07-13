@@ -26,18 +26,18 @@ class Bookings(Resource):
 
         capacity = int(tours.capacity)
         if capacity is 0:
-            return jsonify({
+            return make_response(jsonify({
                 'message': 'Sorry unfortunately,the capacity for this tour is done. :('
-            })
+            }), 404)
 
         tours.capacity = capacity - 1
         bookings = BookTour(tour=tours.id, user=user.id)
         db.session.add(bookings)
         db.session.commit()
 
-        return jsonify({
+        return make_response(jsonify({
             'message': 'booking made successfully'
-        })
+        }), 201)
 
     def delete_booking(self, tour_id):
 
@@ -49,8 +49,6 @@ class Bookings(Resource):
 
             return make_response(jsonify(message), 200)
         tours = TourPackages.query.filter_by(id=tour_id).first()
-
-
 
         if tours is None:
             return jsonify({

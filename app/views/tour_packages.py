@@ -12,13 +12,14 @@ from app.utils.json_utils import filter_args_and_json_custom_creator
 
 class GetTourPackagesByDate(Resource):
 
+    @jwt_required
     def search_tours_by_dates(self, first_date, end_date):
         tours = TourPackages.query.filter(
             AvailableDates.date_available.between(first_date, end_date)).all()
 
         if len(tours) == 0:
             message = {
-                'success': 'Sorry no tours available for the specified dates.'
+                'message': 'Sorry no tours available for the specified dates.'
             }
             return make_response(jsonify(message), 200)
 
@@ -69,7 +70,8 @@ class GetTourPackages(Resource):
             dest_list.append(value)
 
         for a in format_dates:
-            value = AvailableDates(date_available=a['date'])
+            datetime_object = datetime.strptime(a['date'], '%Y-%m-%d')
+            value = AvailableDates(date_available=datetime_object)
             available_dates_list.append(value)
 
         add_tour = TourPackages(name=name, description=description, price=price,
@@ -79,9 +81,10 @@ class GetTourPackages(Resource):
         db.session.add(add_tour)
         db.session.commit()
 
-        return jsonify({
-            'success': 'tour package successfully created'
-        })
+        message = {
+            'message': 'tour package successfully created'
+        }
+        return make_response(jsonify(message), 201)
 
     def get_all_tours(self):
 
@@ -145,7 +148,7 @@ class SingleTour(Resource):
 
         db.session.commit()
         message = {
-            'success': 'tour package updated created'
+            'message': 'tour package updated created'
         }
         return make_response(jsonify(message), 200)
 
@@ -157,7 +160,7 @@ class SingleTour(Resource):
         db.session.commit()
 
         message = {
-            'success': 'tour package with id {id} deleted'.format(id=tour_id)
+            'message': 'tour package with id {id} deleted'.format(id=tour_id)
         }
 
         return make_response(jsonify(message), 204)
