@@ -24,6 +24,7 @@ omit =
       *app/config/config.py*
       *app/extensions.py*
       *app/model/*
+      *app/views/bookings*
       *app/marshallow_models.py*
       *app/utils/*
       *html/*

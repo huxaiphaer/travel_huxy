@@ -14,6 +14,7 @@ You need to install redis on your machine, then afterwards you activate it.
 This is the command you run on mac ``` brew services start redis```
 5. Celery. This is also needed to perform some background processes, for this project, 
 celery is already in the `requirements.txt` file.
+6. Postgres DB
 
 
 ### Installation on Mac
@@ -33,7 +34,10 @@ FLASK_APP=run.py
 DATABASE_URL=postgresql://postgres:your_db_password@localhost:5432/huxy_tours
 REDIS_URL=redis://localhost:6379/0
 WEATHER_API_KEY=1d4ce67223a53a013fc03ead36137396
+SECRET_KEY = anything_you_put_here
 ```
+
+After, setting up the environment variables add create a Postgres Database called `huxy_tours`
 
 
 3 . Then, create a virtual environment and install in on Mac :
@@ -71,6 +75,30 @@ variables a permanently saved._
 `python3 run.py`
 
 Then, Viola you easily navigate to the server URL
+
+
+ #### Endpoints to create a user account and login into the application
+
+| HTTP Method   | End Point             | Action          |
+| ------------- | --------------------- |-----------------|
+| POST          | api/v1/register       |Create an account|
+| POST          | /api/v1/login         |Login user       |
+
+
+
+#### Other Endpoints.
+
+| HTTP Method   | End Point                                   | Action                         |
+| ------------- | ------------------------------------------  |--------------------------------|
+| POST          | /api/v1/tourpackages                        |Creates tour packages.          |
+| GET           | /api/v1/tourpackages                        |Get list of tour packages.      |
+| GET           |/api/v1/tourpackages/<first_date>/<end_date> |Get tourpackages by date        | 
+| GET           | /api/v1/tourpackages/<tour_id>              |Get tour package by ID.         |
+| PUT           | /api/v1/tourpackages/<tour_id>              |Update tour package by ID.      | 
+| DELETE        | api/v1/tourpackages/<tour_id>               |Delete tour package by ID       |
+| POST          | /api/v1/booking/<tour_id>                   |Make a booking request          |
+| DELETE        | /api/v1/booking/<tour_id>                   |Delete a booking request        |
+| GET           | /api/v1/weather/<latitude>/<longitude>      |Get weather updates by location |
 
 
 ### Running Tests

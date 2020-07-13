@@ -15,7 +15,7 @@ def register_extensions(app):
     """Register Flask Extensions"""
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.secret_key = "huxy"
+    app.secret_key = os.environ['SECRET_KEY']
     db.init_app(app)
     Migrate(app, db)
     JWTManager(app)
