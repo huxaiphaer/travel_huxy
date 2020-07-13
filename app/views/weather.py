@@ -1,4 +1,5 @@
 from flask import jsonify
+from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from sqlalchemy import desc
 
@@ -8,6 +9,7 @@ from app.model.weather_model import WeatherForecast
 
 class Weather(Resource):
 
+    @jwt_required
     def get_weather_data(self, latitude, longitude):
         """
         :param self:

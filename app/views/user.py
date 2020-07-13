@@ -1,6 +1,6 @@
-from flask import jsonify
+from flask import jsonify, make_response
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import  create_access_token
+from flask_jwt_extended import create_access_token
 
 from app.extensions import db
 from app.model.tour_packages_model import User
@@ -20,7 +20,10 @@ class UserRegistration(Resource):
         email = args['email']
         test = User.query.filter_by(email=email).first()
         if test:
-            return jsonify(message='That email already exist'), 409
+            message = {
+                'success': 'That email already exist'
+            }
+            return make_response(jsonify(message), 409)
         else:
             first_name = args['first_name']
             last_name = args['last_name']
@@ -29,7 +32,10 @@ class UserRegistration(Resource):
             db.session.add(user)
             db.session.commit()
 
-            return jsonify(message="User created successfully")
+            message = {
+                'success': 'User created successfully'
+            }
+            return make_response(jsonify(message),201)
 
     def post(self):
         return self.register_user()
