@@ -16,6 +16,7 @@ Flask-JWT-Extended==3.24.1
 flask-marshmallow==0.13.0
 Flask-Migrate==2.5.3
 Flask-RESTful==0.3.8
+flask-restful-swagger-3==0.1
 Flask-SQLAlchemy==2.4.3
 Flask-Testing==0.8.0
 idna==2.10

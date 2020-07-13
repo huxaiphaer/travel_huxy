@@ -1,6 +1,7 @@
 from flask import jsonify, make_response
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import create_access_token
+from flask_restful_swagger_3 import swagger
 
 from app.extensions import db
 from app.model.tour_packages_model import User
@@ -8,6 +9,36 @@ from app.model.tour_packages_model import User
 
 class UserRegistration(Resource):
 
+    @swagger.doc({
+        'tags': ['user'],
+        'description': 'Registers a user',
+        'parameters': [
+            {
+                'name': 'user_id',
+                'description': 'User identifier',
+                'in': 'path',
+                'schema': {
+                    'type': 'integer'
+                }
+            }
+        ],
+        'responses': {
+            '200': {
+                'description': 'User',
+                'content': {
+                    'application/json': {
+                        'schema': User,
+                        'examples': {
+                            'application/json': {
+                                'id': 1,
+                                'message': 'User created successfully'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
     def register_user(self):
 
         parser = reqparse.RequestParser()
@@ -21,7 +52,7 @@ class UserRegistration(Resource):
         test = User.query.filter_by(email=email).first()
         if test:
             message = {
-                'success': 'That email already exist'
+                'message': 'That email already exist'
             }
             return make_response(jsonify(message), 409)
         else:
@@ -33,9 +64,9 @@ class UserRegistration(Resource):
             db.session.commit()
 
             message = {
-                'success': 'User created successfully'
+                'message': 'User created successfully'
             }
-            return make_response(jsonify(message),201)
+            return make_response(jsonify(message), 201)
 
     def post(self):
         return self.register_user()

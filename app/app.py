@@ -1,9 +1,11 @@
+import os
+
 from celery import Celery
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from flask_restful import Api
-import os
+from flask_restful_swagger_3 import Api
+
 from app.extensions import db
 from app.views.bookings import Bookings
 from app.views.tour_packages import GetTourPackages, SingleTour, GetTourPackagesByDate
@@ -31,7 +33,7 @@ def create_app():
 
 application = create_app()
 
-api = Api(application)
+api = Api(application, version='0.0', api_spec_url='/api/swagger')
 api.add_resource(GetTourPackages, '/api/v1/tourpackages')
 api.add_resource(GetTourPackagesByDate, '/api/v1/tourpackages/<first_date>/<end_date>')
 api.add_resource(SingleTour, '/api/v1/tourpackages/<tour_id>')
