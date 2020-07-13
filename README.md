@@ -110,6 +110,11 @@ Then, Viola you easily navigate to the server URL
 |               |                                             |                                |
 
 
+### Further More API Docs.
+
+This is the [link](https://huxytours.docs.apiary.io/) to the API Docs.
+
+
 ### Running Tests
 
 Running tests of the project :
