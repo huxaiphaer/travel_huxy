@@ -99,6 +99,7 @@ Then, Viola you easily navigate to the server URL
 | POST          | /api/v1/booking/<tour_id>                   |Make a booking request          |
 | DELETE        | /api/v1/booking/<tour_id>                   |Delete a booking request        |
 | GET           | /api/v1/weather/<latitude>/<longitude>      |Get weather updates by location |
+|               |                                             |                                |
 
 
 ### Running Tests
