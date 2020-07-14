@@ -21,7 +21,7 @@ class UserRegistration(Resource):
         test = User.query.filter_by(email=email).first()
         if test:
             message = {
-                'success': 'That email already exist'
+                'message': 'That email already exist'
             }
             return make_response(jsonify(message), 409)
         else:
@@ -33,7 +33,7 @@ class UserRegistration(Resource):
             db.session.commit()
 
             message = {
-                'success': 'User created successfully'
+                'message': 'User created successfully'
             }
             return make_response(jsonify(message),201)
 
