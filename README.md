@@ -24,10 +24,8 @@ celery is already in the `requirements.txt` file.
 ```
 $ git clone https://github.com/huxaiphaer/travel_huxy.git
 ```
-Add the following variables in your Environment Variables :
 
-
-2 . Create a `.env` file in the root directory and add the following :
+2 . Add the following variables in your Environment Variables :
 
 ```buildoutcfg
 FLASK_APP=run.py
