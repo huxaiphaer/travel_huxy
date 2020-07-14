@@ -25,7 +25,7 @@ celery is already in the `requirements.txt` file.
 $ git clone https://github.com/huxaiphaer/travel_huxy.git
 ```
 
-2 . Add the following variables in your Environment Variables :
+2 . Add the following variables in your Environment Variables permanently:
 
 ```buildoutcfg
 FLASK_APP=run.py
@@ -41,7 +41,7 @@ below to create all the necessary tables :
 
 **NOTE :**
 - The commands below won't run unless  you have your Redis server running and as well
-as you have set all the environment variables above.
+as setting all the environment variables above.
 
 ```
 $ flask db init
@@ -64,8 +64,7 @@ $ source env/bin/activate
 $ pip3 install -r requirements.txt
 ```
 
-5. Activate celery to perform background tasks, open a new tab in the project directory (Ensure that if you have 
-saved the Environment variables temporary, add them again to your new tab, plus activating the `virtualenv`).
+5. Activate celery to perform background tasks, open a new tab in the project directory.
 Run this first command :
 
 `$ celery -A app.tasks.weather_tasks.celery worker -l info`
@@ -77,13 +76,14 @@ the command below :
 
 
 **HINT**:
+
 _In order to run the commands smooth in different terminals ensure that the environment
 variables a permanently saved._
 
 
 6. After, that, open another terminal and now run the entire project with the following command:
 
-`$ python3 run.py`
+  `$ python3 run.py`
 
 Then, Viola you easily navigate to the server URL
 
@@ -118,7 +118,7 @@ Then, Viola you easily navigate to the server URL
 This is the [link](https://huxytours.docs.apiary.io/) to the API Docs.
 
 
-### Running Tests
+### Running Tests Locally
 
 Running tests of the project :
 
@@ -137,9 +137,9 @@ $ nosetests --with-coverage
  Due to time being as a factor the following were left out, but they could improve on the 
  experience :
  
- - Docker
- - Exhausting more on unit tests
- - Hosting the project (e.g Heroku) etc.
+ - _Docker_
+ - _Exhausting more on unit tests_.
+ - _Hosting the project (e.g Heroku) etc._
 
 ### Contributors 
 
