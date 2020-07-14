@@ -40,6 +40,11 @@ SECRET_KEY = anything_you_put_here
 After, setting up the environment variables add create a Postgres Database called `huxy_tours`, followed by running SQLAlchemy migrations with the commands 
 below to create all the necessary tables :
 
+
+**NOTE :**
+- The commands below won't run unless  you have your Redis server running and as well
+as you have set all the environment variables above.
+
 ```
 $ flask db init
 $ flask db migrate
