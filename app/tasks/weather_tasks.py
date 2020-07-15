@@ -42,7 +42,7 @@ def make_request():
 
     # clear the table first, before adding new data.
 
-    db.session.execute('''DELETE FROM weather_forecasts''')
+    db.session.execute('''TRUNCATE TABLE weather_forecasts''')
     db.session.commit()
     db.session.close()
 
