@@ -169,4 +169,4 @@ $ nosetests --with-coverage
 
 ### Contributors 
 
-* Lutaaya Huzaifah Idris
+* [Lutaaya Idris](https://github.com/huxaiphaer)
