@@ -38,6 +38,7 @@ class BaseTestCase(TestCase):
         """
         Drop the database
         """
+        db.drop_all()
 
     def register_user(self, email, first_name, last_name, password):
         """

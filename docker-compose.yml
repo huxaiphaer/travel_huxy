@@ -1,0 +1,53 @@
+version: "3.7"
+
+services:
+
+  redis:
+    container_name: redis_huxy_tour_dev_container
+    image: redis
+    ports:
+      - "6379:6379"
+
+  db:
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+    image: postgres:latest
+    networks:
+      - default
+    ports:
+      - 5405:5432
+    restart: always
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+
+  flask_service:
+    container_name: travel_dev_container
+    restart: always
+    image: flask
+
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+      - db
+    ports:
+      - '5002:5002'
+    volumes:
+      - ./:/app
+    environment:
+      - FLASK_DEBUG=1
+      - FLASK_APP=run.py
+      - DATABASE_URL=postgresql+psycopg2://test:test@db/test
+      - SQLALCHEMY_DATABASE_URI= postgresql+psycopg2://test:test@db/test
+      - REDIS_URL=redis://redis:6379/0
+      - WEATHER_API_KEY=1d4ce67223a53a013fc03ead36137396
+      - SECRET_KEY=huxy
+      - APPLICATION_PORT=5002
+      - APPLICATION_HOST=0.0.0.0
+      - APPLICATION_DEBUG=False
+
+volumes:
+  database_postgres:

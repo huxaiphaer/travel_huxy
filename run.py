@@ -1,4 +1,5 @@
 from app.app import application
+import os
 
 
 @application.route('/', methods=['GET'])
@@ -7,4 +8,5 @@ def index():
 
 
 if __name__ == '__main__':
-    application.run(port=5001, debug=True)
+    application.run(host=os.environ['APPLICATION_HOST'], port=os.environ['APPLICATION_PORT'],
+                    debug=os.environ['APPLICATION_DEBUG'])

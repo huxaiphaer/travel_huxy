@@ -32,7 +32,11 @@ FLASK_APP=run.py
 DATABASE_URL=postgresql://postgres:your_db_password@localhost:5432/huxy_tours
 REDIS_URL=redis://localhost:6379/0
 WEATHER_API_KEY=1d4ce67223a53a013fc03ead36137396
-SECRET_KEY = anything_you_put_here
+SECRET_KEY=anything_you_put_here
+APPLICATION_HOST=0.0.0.0
+APPLICATION_PORT=5002
+APPLICATION_DEBUG=False
+
 ```
 
 After, setting up the environment variables add create a Postgres Database called `huxy_tours`, followed by running SQLAlchemy migrations with the commands 
@@ -85,8 +89,31 @@ variables a permanently saved._
 
   `$ python3 run.py`
 
-Then, Viola you easily navigate to the server URL
+Then, Viola you easily navigate to the server URL 
+`http://APPLICATION_HOST:APPLICATION_PORT` 
 
+
+## Running with Docker.
+
+The alternative way of running this project is by using DOcker.
+
+#### Requirements.
+
+- Ensure that you have installed docker on your machine.
+
+After, installing , then run the following command in the root folder of the 
+project to spin the container.
+
+```python3
+
+ $ docker-compose up --build
+
+```
+
+If the command is successfully done , it shows the `celery` logs 
+of the beats.
+
+To access, the application use `http://APPLICATION_HOST:APPLICATION_PORT` 
 
  #### Endpoints to create a user account and login into the application
 
@@ -122,13 +149,13 @@ This is the [link](https://huxytours.docs.apiary.io/) to the API Docs.
 
 Running tests of the project :
 
-```buildoutcfg
+```python3
 $ nosetests
 ```
 
 Running tests with coverage :
 
-```buildoutcfg
+```python3
 $ nosetests --with-coverage
 ```
 
@@ -137,7 +164,6 @@ $ nosetests --with-coverage
  Due to time being as a factor the following were left out, but they could improve on the 
  experience :
  
- - _Docker_
  - _Exhausting more on unit tests_.
  - _Hosting the project (e.g Heroku) etc._
 
