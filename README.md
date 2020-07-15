@@ -95,7 +95,7 @@ Then, Viola you easily navigate to the server URL
 
 ## Running with Docker.
 
-The alternative way of running this project is by using DOcker.
+The alternative way of running this project is by using Docker.
 
 #### Requirements.
 
